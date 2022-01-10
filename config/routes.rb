@@ -9,7 +9,14 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :todos
-      resources :todoitems
+      resources :todoitems do
+        member do
+          post :complete
+          post :incomplete
+          post :move
+          patch :edit
+        end
+      end  
     end
   end
 

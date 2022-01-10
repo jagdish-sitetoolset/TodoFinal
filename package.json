@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@babel/preset-react": "^7.16.7",
+    "@popperjs/core": "^2.11.2",
     "@rails/webpacker": "5.4.0",
     "axios": "^0.24.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",

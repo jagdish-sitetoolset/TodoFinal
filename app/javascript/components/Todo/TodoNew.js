@@ -32,13 +32,14 @@ const TodoNew = (props)=> {
             <div className="card-body">
                 <form onSubmit={handleSubmit}>
                 
+                
                     <div className="mb-3">
                         <label  className="form-label">Title</label>
                         <input onChange={handleChange} className="form-control" type="text" name="title" placeholder="Todo Title" value={todo.title}/>
                     </div>
                     <div className="mb-3">
                         <label  className="form-label">Description</label>
-                        <input onChange={handleChange} className="form-control" type="text" name="description" placeholder="Todo Description" value={todo.description}/>
+                        <textarea onChange={handleChange} className="form-control" type="textarea" name="description" rows="3" placeholder="Todo Description" value={todo.description}/>
                         <div id="titleHelp" className="form-text">Add some more information about todo.</div>
                     </div>
                     <button type="submit" className="btn btn-primary">Submit</button>

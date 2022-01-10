@@ -10,7 +10,7 @@ const Todos = () => {
 
     useEffect ( () => {
         // get all todos
-        
+        console.log('call')
         axios.get('/api/v1/todos.json')
         .then( resp => {
             //console.log(resp.data.data);
@@ -20,11 +20,34 @@ const Todos = () => {
 
     },[todos.length])
 
+    const handleDestroy = (id, e) => {
+        //console.log(id)
+        e.preventDefault()
+
+        axios.delete(`/api/v1/todos/${id}`)
+        .then( (data) => {
+        const included = [...todos]
+        const index = included.findIndex( (data) => data.id == id )
+        included.splice(index, 1)
+
+        setTodos(included)
+        })
+        .catch( data => console.log('Error', data) )
+    }
+
     const Todos_List = todos.map(todo => {
 
-        console.log(todo.relationships.todoitems.data)
+        //console.log(todo.relationships.todoitems.data)
          
-        return (<TodoCard key={todo.id} todoitems={todo.relationships.todoitems.data} attributes={todo.attributes}></TodoCard>)
+        return (
+        <TodoCard 
+            key={todo.id} 
+            todoitems={todo.relationships.todoitems.data} 
+            attributes={todo.attributes}
+            handleDestroy={handleDestroy}
+            />
+
+        )
     }) 
 
     return (

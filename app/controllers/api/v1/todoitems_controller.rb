@@ -1,3 +1,5 @@
+require 'date'
+
 module Api 
     module V1
         class TodoitemsController < ApplicationController
@@ -12,7 +14,7 @@ module Api
             def show
 
                 todoitem = Todoitem.find_by(id: params[:id])
-                render json: TodoitemSerializer.new(todoitem, options).serialized_json
+                render json: TodoitemSerializer.new(todoitem,options).serialized_json
             end
 
             def create
@@ -20,10 +22,11 @@ module Api
                 todoitem = Todoitem.new(todoitem_params)
 
                 if todoitem.save
-                    render jason: TodoitemSerializer.new(todoitem).serialized_json
+
+                    TodoItemManager.SaveTags(todoitem,params.permit(:tagname))
+                    render json: TodoitemSerializer.new(todoitem,options).serialized_json
                 else
                     render json: {error: todoitem.errors.messages},status: 422
-
                 end
 
             end
@@ -33,10 +36,10 @@ module Api
                 todoitem = Todoitem.find_by(params[:id])
 
                 if todoitem.update(todoitem_params)
-                    render jason: TodoitemSerializer.new(todoitem).serialized_json
+                    TodoItemManager.SaveTags(todoitem,params.permit(:tagname))
+                    render json: TodoitemSerializer.new(todoitem,options).serialized_json
                 else
                     render json: {error: todoitem.errors.messages},status: 422
-
                 end
 
             end
@@ -45,7 +48,7 @@ module Api
             
                 todoitem = Todoitem.find_by(params[:id])
 
-                if todoitem.destroy(todoitem_params)
+                if todoitem.destroy
                     head :no_content
                 else
                     render json: {error: todoitem.errors.messages},status: 422
@@ -54,14 +57,37 @@ module Api
 
             end
 
+            def complete
+
+                todoitem = Todoitem.find_by(params[:id])
+                if todoitem.update(completed: true, datecompleted: DateTime.now)
+                    render json: TodoitemSerializer.new(todoitem,options).serialized_json
+                else
+                    render json: {error: todoitem.errors.messages},status: 422
+                end
+              
+            end
+        
+            def incomplete
+                
+                todoitem = Todoitem.find_by(params[:id])
+                if todoitem.update(completed: false, datecompleted: nil)
+                    render json: TodoitemSerializer.new(todoitem,options).serialized_json
+                else
+                    render json: {error: todoitem.errors.messages},status: 422
+                end
+            end
+
             private 
 
             def todoitem_params
 
-                params.require(:todoitem).permit(:name, :completed, :datecompleted,:todo_id)
+                params.require(:todoitem).permit(:name, :completed, :datecompleted, :todo_id, :tagname)
             end
 
-           
+            def options
+                @options ||= { include: %i[tags] }
+            end
 
             
         end

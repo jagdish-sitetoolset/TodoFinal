@@ -1,12 +1,36 @@
-import React, {useState} from 'react'
+import React, {useState,useEffect} from 'react'
 import { useNavigate,Link } from "react-router-dom";
 import axios from 'axios'
-
+import { useParams } from "react-router-dom";
 
 const TodoEdit = (params)=> {
 
-    const [todo , setTodo] = useState({ title: '', description: ''})
+    const [todo , setTodo] = useState({ title: '', description: '',id:0})
     let navigate = useNavigate();
+
+    let props = useParams()
+    useEffect ( () => {
+        // get todo 
+        // get all todositems
+        const url ='/api/v1/todos/' + props.id
+        
+        axios.get(url)
+        .then( resp => {
+            console.log(resp.data)
+
+            let todo1 = resp.data.data.attributes
+            setTodo({ title: todo1.title, description: todo1.description,id:todo1.id})
+            //setTodo({ title: resp.data.data.attributes.title, description: resp.data.data.attributes.description})
+            //setTodoitems(resp.data.included)
+            
+            //setLoaded(true)
+
+            
+        })
+        .catch( resp => console.log(resp))
+
+    },[todo.length])
+      
 
     const handleChange = (e) => {
         setTodo(Object.assign({}, todo, {[e.target.name]: e.target.value}))
@@ -17,7 +41,7 @@ const TodoEdit = (params)=> {
         e.preventDefault()
         console.log(todo)
 
-        axios.post('/api/v1/todos',{...todo})
+        axios.patch('/api/v1/todos/'+todo.id,{...todo})
         .then( resp => {
             setTodo({title: '', description: ''});
             navigate('/todo');
@@ -39,7 +63,7 @@ const TodoEdit = (params)=> {
                     </div>
                     <div className="mb-3">
                         <label  className="form-label">Description</label>
-                        <input onChange={handleChange} className="form-control" type="text" name="description" placeholder="Todo Description" value={todo.description}/>
+                        <textarea rows ="4" onChange={handleChange} className="form-control" type="text" name="description" placeholder="Todo Description" value={todo.description}/>
                         <div id="titleHelp" className="form-text">Add some more information about todo.</div>
                     </div>
                     <button type="submit" className="btn btn-primary">Submit</button>
