@@ -1,6 +1,6 @@
 class TagSerializer
     include FastJsonapi::ObjectSerializer
-    attributes :tagname, :Todoitem_id
+    attributes :tagname, :todoitem_id
     
   end
   

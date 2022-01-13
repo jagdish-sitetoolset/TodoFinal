@@ -14,7 +14,6 @@ const Todo = () => {
     const[todoitems , setTodoitems] = useState([])
 
     const[todoitem_new , setTodoitem_new] = useState([{name:'',completed: false, datecompleted:'',tags:'',todo_id:0}])
-
     const [loaded,setLoaded] =  useState(false)
 
     let props = useParams()
@@ -24,21 +23,16 @@ const Todo = () => {
         // get todo 
         // get all todositems
         const url ='/api/v1/todos/' + props.id
-        
         axios.get(url)
         .then( resp => {
-            //console.log(resp.data.included)
-            
+            //console.log(resp)
             setTodo(resp.data.data.attributes)
             setTodoitems(resp.data.included)
-            
             setLoaded(true)
-
-            
         })
         .catch( resp => console.log(resp))
 
-    },[todo.length])
+    },[loaded])
 
     const handleDestroy = (id, e) => {
         //console.log(id)
@@ -67,11 +61,13 @@ const Todo = () => {
       // Create a todoitem
     const handleSubmit = (e) => {
         e.preventDefault()
-        
+        console.log(todoitem_new)
         axios.post('/api/v1/todoitems',{...todoitem_new,todo_id: props.id})
         .then( resp => {
             setTodoitem_new({name:'',completed: false, datecompleted:'',tags:''});
-            navigate('/todo');
+            //navigate('/todo');
+            setTodoitems([...todoitems,resp.data.data])
+            console.log(resp.data.data.attributes)
         })
         .catch( resp => console.log(resp))
     }   
@@ -89,15 +85,19 @@ const Todo = () => {
             included[index].completed = resp.data.data.attributes.completed
             included[index].datecompleted = resp.data.data.attributes.datecompleted
 
-            console.log(included[index])
-            console.log(resp.data.data)
+            //console.log(included[index])
+            //console.log(resp.data.data)
             setTodoitems(included)
+            setTodo(todo)
+            setLoaded(false)
+
         })
         .catch( resp => console.log(resp))
     }
 
     const handleComplete_todoItem = (id,e) => {
         e.preventDefault()
+        
         axios.post(`/api/v1/todoitems/${id}/complete`)
         .then( resp => {
 
@@ -108,14 +108,16 @@ const Todo = () => {
             included[index].completed = resp.data.data.attributes.completed
             included[index].datecompleted = resp.data.data.attributes.datecompleted
             console.log(included[index])
-            console.log(resp.data.data)
+            //console.log(resp.data.data)
             setTodoitems(included)
+            setTodo(todo)
+            setLoaded(false)
         })
     }
 
     const handleDestroy_todoItem = (id,e) => {
         e.preventDefault()
-
+        console.log(id)
         axios.delete(`/api/v1/todoitems/${id}`)
         .then( (data) => {
             const included = [...todoitems]
@@ -127,9 +129,10 @@ const Todo = () => {
         .catch( data => console.log('Error', data) )
     }
 
-    //console.log(todoitems)
+    
     const Todoitems_List = todoitems.map(todoitem => {
 
+        //console.log(todoitem.relationships.tags.data)
         return (<Todoitem 
             key={todoitem.id}
             id={todoitem.id}  
@@ -143,7 +146,8 @@ const Todo = () => {
     }) 
 
   
-    //console.log(Todoitems_List)
+    console.log('here')
+    console.log(todoitem_new)
 
     return (
         <div className="container">
@@ -156,7 +160,7 @@ const Todo = () => {
                     </div>   
                     <div className="card-body">
                         <p className="card-text">{ loaded && todo.description}</p>           
-                            <ul className="list-group">
+                        <ul className="list-group">
                                 {Todoitems_List} 
                         </ul>
                     </div>
@@ -168,7 +172,7 @@ const Todo = () => {
                 </div>
                 </div>
                 <div className="col-5">
-                    <TodoitemForm handleChange={handleChange}  handleSubmit={handleSubmit} />
+                    <TodoitemForm handleChange={handleChange} todoitem={todoitem_new}  handleSubmit={handleSubmit} />
                 </div>
             </div>    
            

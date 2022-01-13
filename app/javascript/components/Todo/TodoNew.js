@@ -14,14 +14,15 @@ const TodoNew = (props)=> {
       // Create a todo
       const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(todo)
+        //console.log(todo)
 
         axios.post('/api/v1/todos',{...todo})
         .then( resp => {
             setTodo({title: '', description: ''});
             navigate('/todo');
+           
         })
-        .catch( resp => console.log(resp))
+        .catch( data => console.log('Error', data) )
       }    
 
     return (

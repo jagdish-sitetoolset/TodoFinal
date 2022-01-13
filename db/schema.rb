@@ -14,10 +14,10 @@ ActiveRecord::Schema.define(version: 2022_01_06_142312) do
 
   create_table "tags", force: :cascade do |t|
     t.string "tagname"
-    t.integer "Todoitem_id", null: false
+    t.integer "todoitem_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["Todoitem_id"], name: "index_tags_on_Todoitem_id"
+    t.index ["todoitem_id"], name: "index_tags_on_todoitem_id"
   end
 
   create_table "todoitems", force: :cascade do |t|
@@ -37,6 +37,6 @@ ActiveRecord::Schema.define(version: 2022_01_06_142312) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  add_foreign_key "tags", "Todoitems"
+  add_foreign_key "tags", "todoitems"
   add_foreign_key "todoitems", "todos"
 end

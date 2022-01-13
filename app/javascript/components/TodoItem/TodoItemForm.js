@@ -14,7 +14,7 @@ const TodoItemForm = (props) => {
                 
                     <div className="mb-3">
                         <label  className="form-label">Todo Item Name</label>
-                        <input  className="form-control" onChange={props.handleChange} type="text" name="name" placeholder="Todo Item Title" />
+                        <input  className="form-control" onChange={props.handleChange}   type="text" name="name" placeholder="Todo Item Title" />
                     </div>
                     <div className="mb-3">
                         <input className="form-check-input" onChange={props.handleChange} type="checkbox" value="" name="completed"/>

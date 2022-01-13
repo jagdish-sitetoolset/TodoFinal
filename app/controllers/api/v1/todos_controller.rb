@@ -2,6 +2,7 @@ module Api
     module V1
         class TodosController < ApplicationController
             protect_from_forgery with: :null_session
+            
             def index   
 
                 todos = Todo.all
@@ -59,8 +60,10 @@ module Api
            
 
             def options
-                @options ||= { include: %i[todoitems] }
+                @options ||= { include: %i[todoitems],includetag: %i[tags] }
             end
+
+           
         end
     end
 end

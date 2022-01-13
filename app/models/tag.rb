@@ -1,5 +1,6 @@
 class Tag < ApplicationRecord
-  belongs_to :Todoitem
+  validates :tagname, presence: true
+  belongs_to :todoitem
   
 
 end

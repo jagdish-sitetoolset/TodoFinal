@@ -22,8 +22,9 @@ module Api
                 todoitem = Todoitem.new(todoitem_params)
 
                 if todoitem.save
-
-                    TodoItemManager.SaveTags(todoitem,params.permit(:tagname))
+                    if params[:tags].length > 0
+                        TodoItemManager.SaveTags(todoitem,params.permit(:tags))
+                    end
                     render json: TodoitemSerializer.new(todoitem,options).serialized_json
                 else
                     render json: {error: todoitem.errors.messages},status: 422
@@ -36,8 +37,10 @@ module Api
                 todoitem = Todoitem.find_by(params[:id])
 
                 if todoitem.update(todoitem_params)
-                    TodoItemManager.SaveTags(todoitem,params.permit(:tagname))
-                    render json: TodoitemSerializer.new(todoitem,options).serialized_json
+                    if params[:tags].length > 0
+                       TodoItemManager.SaveTags(todoitem,params.permit(:tags))
+                    end
+                       render json: TodoitemSerializer.new(todoitem,options).serialized_json
                 else
                     render json: {error: todoitem.errors.messages},status: 422
                 end
@@ -46,8 +49,8 @@ module Api
 
             def destroy
             
-                todoitem = Todoitem.find_by(params[:id])
-
+                todoitem = Todoitem.find_by(id: params[:id])
+                #render json: TodoitemSerializer.new(todoitem,options).serialized_json
                 if todoitem.destroy
                     head :no_content
                 else
@@ -59,7 +62,7 @@ module Api
 
             def complete
 
-                todoitem = Todoitem.find_by(params[:id])
+                todoitem = Todoitem.find_by(id: params[:id])
                 if todoitem.update(completed: true, datecompleted: DateTime.now)
                     render json: TodoitemSerializer.new(todoitem,options).serialized_json
                 else
@@ -70,7 +73,7 @@ module Api
         
             def incomplete
                 
-                todoitem = Todoitem.find_by(params[:id])
+                todoitem = Todoitem.find_by(id: params[:id])
                 if todoitem.update(completed: false, datecompleted: nil)
                     render json: TodoitemSerializer.new(todoitem,options).serialized_json
                 else
