@@ -14,7 +14,6 @@ const TodoNew = (props)=> {
       // Create a todo
       const handleSubmit = (e) => {
         e.preventDefault()
-        //console.log(todo)
 
         axios.post('/api/v1/todos',{...todo})
         .then( resp => {

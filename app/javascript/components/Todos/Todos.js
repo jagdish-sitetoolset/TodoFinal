@@ -10,10 +10,8 @@ const Todos = () => {
 
     useEffect ( () => {
         // get all todos
-        console.log('call')
         axios.get('/api/v1/todos.json')
         .then( resp => {
-            //console.log(resp.data.data);
             setTodos(resp.data.data);
         })
         .catch( resp => console.log(resp))
@@ -21,7 +19,6 @@ const Todos = () => {
     },[todos.length])
 
     const handleDestroy = (id, e) => {
-        //console.log(id)
         e.preventDefault()
 
         axios.delete(`/api/v1/todos/${id}`)
@@ -37,8 +34,6 @@ const Todos = () => {
 
     const Todos_List = todos.map(todo => {
 
-        //console.log(todo.relationships.todoitems.data)
-         
         return (
         <TodoCard 
             key={todo.id} 

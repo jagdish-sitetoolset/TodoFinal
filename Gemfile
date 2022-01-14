@@ -29,6 +29,7 @@ gem "jbuilder"
 
 gem "fast_jsonapi"
 gem 'webpacker'
+#gem 'rspec'
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
@@ -54,6 +55,15 @@ gem "bootsnap", require: false
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
+end
+
+group :development, :test do
+  gem 'rspec-rails'
+end
+
+group :test do
+  # Adds support for Capybara system testing and selenium driver
+  gem 'capybara', '>= 2.15'
 end
 
 group :development do

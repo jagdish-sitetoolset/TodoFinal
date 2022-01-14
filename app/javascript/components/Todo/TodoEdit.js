@@ -16,16 +16,9 @@ const TodoEdit = (params)=> {
         
         axios.get(url)
         .then( resp => {
-            console.log(resp.data)
 
             let todo1 = resp.data.data.attributes
             setTodo({ title: todo1.title, description: todo1.description,id:todo1.id})
-            //setTodo({ title: resp.data.data.attributes.title, description: resp.data.data.attributes.description})
-            //setTodoitems(resp.data.included)
-            
-            //setLoaded(true)
-
-            
         })
         .catch( resp => console.log(resp))
 
@@ -39,7 +32,6 @@ const TodoEdit = (params)=> {
       // Create a todo
       const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(todo)
 
         axios.patch('/api/v1/todos/'+todo.id,{...todo})
         .then( resp => {

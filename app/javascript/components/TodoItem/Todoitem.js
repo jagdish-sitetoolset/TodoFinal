@@ -3,25 +3,18 @@ import axios from 'axios'
 
 const Todoitem =(props) => {
 
-    //console.log(props)
-    //console.log(props)
-
     const[tags , setTags] = useState([])
 
     useEffect ( () => {
         const url ='/api/v1/todoitems/' + props.id
         axios.get(url)
         .then( resp => {
-            
             setTags(resp.data.included)
-            //console.log(resp.data.included)
         })
         .catch( resp => console.log(resp))
     },[tags.length])
     
     const Tag_List = tags.map(tag => {
-
-        //console.log(todoitem.relationships.tags.data)
         return (<span key={tag.id} style={{margin: "4px"}} className="badge bg-primary">{tag.attributes.tagname} </span> )
     }) 
 
@@ -32,7 +25,6 @@ const Todoitem =(props) => {
         if(props.datecompleted != null)
         {
             datecompleted = props.datecompleted 
-            //console.log(datecompleted) 
         }
         return ( 
             <li key={props.id} className="list-group-item" >

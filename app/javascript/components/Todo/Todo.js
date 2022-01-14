@@ -25,7 +25,6 @@ const Todo = () => {
         const url ='/api/v1/todos/' + props.id
         axios.get(url)
         .then( resp => {
-            //console.log(resp)
             setTodo(resp.data.data.attributes)
             setTodoitems(resp.data.included)
             setLoaded(true)
@@ -35,7 +34,6 @@ const Todo = () => {
     },[loaded])
 
     const handleDestroy = (id, e) => {
-        //console.log(id)
         e.preventDefault()
 
         axios.delete(`/api/v1/todos/${id}`)
@@ -46,8 +44,6 @@ const Todo = () => {
     } 
 
     const handleChange = (e) => {
-        //console.log(e.target.name + e.target.value  )
-
         if (e.target.name == 'completed'){
             // checkbox value
             setTodoitem_new(Object.assign({}, todoitem_new, {[e.target.name]: e.target.checked.toString()}))
@@ -55,19 +51,14 @@ const Todo = () => {
         else{
             setTodoitem_new(Object.assign({}, todoitem_new, {[e.target.name]: e.target.value.toString()}))
         }
-        //console.log(todoitem_new)
     }
 
-      // Create a todoitem
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(todoitem_new)
         axios.post('/api/v1/todoitems',{...todoitem_new,todo_id: props.id})
         .then( resp => {
             setTodoitem_new({name:'',completed: false, datecompleted:'',tags:''});
-            //navigate('/todo');
             setTodoitems([...todoitems,resp.data.data])
-            console.log(resp.data.data.attributes)
         })
         .catch( resp => console.log(resp))
     }   
@@ -78,15 +69,11 @@ const Todo = () => {
         axios.post(`/api/v1/todoitems/${id}/incomplete`)
         .then( resp => {
 
-            console.log(id)
             const included = [...todoitems]
             const index = included.findIndex( (data) => data.id == id )
-            //included.splice(index, 1)
             included[index].completed = resp.data.data.attributes.completed
             included[index].datecompleted = resp.data.data.attributes.datecompleted
 
-            //console.log(included[index])
-            //console.log(resp.data.data)
             setTodoitems(included)
             setTodo(todo)
             setLoaded(false)
@@ -101,14 +88,11 @@ const Todo = () => {
         axios.post(`/api/v1/todoitems/${id}/complete`)
         .then( resp => {
 
-            console.log(id)
             const included = [...todoitems]
             const index = included.findIndex( (data) => data.id == id )
-            //included.splice(index, 1)
             included[index].completed = resp.data.data.attributes.completed
             included[index].datecompleted = resp.data.data.attributes.datecompleted
-            console.log(included[index])
-            //console.log(resp.data.data)
+
             setTodoitems(included)
             setTodo(todo)
             setLoaded(false)
@@ -117,7 +101,7 @@ const Todo = () => {
 
     const handleDestroy_todoItem = (id,e) => {
         e.preventDefault()
-        console.log(id)
+
         axios.delete(`/api/v1/todoitems/${id}`)
         .then( (data) => {
             const included = [...todoitems]
@@ -132,7 +116,6 @@ const Todo = () => {
     
     const Todoitems_List = todoitems.map(todoitem => {
 
-        //console.log(todoitem.relationships.tags.data)
         return (<Todoitem 
             key={todoitem.id}
             id={todoitem.id}  
@@ -145,9 +128,6 @@ const Todo = () => {
             /> )
     }) 
 
-  
-    console.log('here')
-    console.log(todoitem_new)
 
     return (
         <div className="container">
