@@ -85,7 +85,7 @@ module Api
 
             def todoitem_params
 
-                params.require(:todoitem).permit(:name, :completed, :datecompleted, :todo_id, :tagname)
+                params.require(:todoitem).permit(:name, :completed, :datecompleted, :todo_id, :tagname, :isrecurring)
             end
 
             def options

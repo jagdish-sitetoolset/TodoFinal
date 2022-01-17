@@ -10,6 +10,20 @@ module Api
                 render json: TodoSerializer.new(todos, options).serialized_json
             end
 
+            def search   
+
+                @tags = params[:id].split(',')
+                if params[:id].length >= 1
+                    #@tags.map! {|tag| '' + tag.downcase + '' } 
+                    # todos1 = Todo.distinct.select("todos.*").joins(:tags).where('lower(tags.tagname) like ?', 'coxmplete')
+                    todos = Todo.distinct.select("todos.*").joins(:todoitems).joins(:tags).where('lower(tags.tagname) like  ?', @tags[0])
+                else
+                    todos = Todo.all
+                end
+                #render todos
+                render json: TodoSerializer.new(todos).serialized_json
+            end
+
             def show
 
                 todo = Todo.find_by(id: params[:id])

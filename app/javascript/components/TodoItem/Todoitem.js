@@ -6,6 +6,7 @@ const Todoitem =(props) => {
     const[tags , setTags] = useState([])
 
     useEffect ( () => {
+        console.log(props.id)
         const url ='/api/v1/todoitems/' + props.id
         axios.get(url)
         .then( resp => {
@@ -28,9 +29,11 @@ const Todoitem =(props) => {
         }
         return ( 
             <li key={props.id} className="list-group-item" >
-                 <h6>{props.name}&nbsp;&nbsp;
-             <span className='badge bg-success'>Completed on: {datecompleted}</span>
-             </h6>
+                 <h4>{props.name} </h4>
+                 <h6>Status: <span className='badge bg-success'> Completed On {datecompleted}</span> </h6>
+                 <h6>Recurring: <span className='badge bg-success'>{props.isrecurring == true ? 'Yes' : 'No'}</span></h6>
+             
+            
              {Tag_List.length > 0 && <span>Tag:</span>} {Tag_List}
                 <div className="  d-md-flex justify-content-md-end">
                     <button id="set_incomplete"  type="submit" onClick={props.handleIncomplete_todoItem.bind(this, props.id)} className="btn btn-info btn-sm">Set Incomplete</button>&nbsp;
@@ -44,7 +47,10 @@ const Todoitem =(props) => {
     {
         return ( 
             <li key={props.id} className="list-group-item" >
-                <h6>{props.name}</h6>
+                 <h4>{props.name} </h4>
+                 <h6>Status: <span className='badge bg-info'> Incomplete</span> </h6>
+                 <h6>Recurring: <span className='badge bg-success'>{props.isrecurring == true ? 'Yes' : 'No'}</span></h6>
+
                 {Tag_List.length > 0 && <span>Tag:</span>} {Tag_List}
                
                 <div key={props.id}  className=" d-md-flex justify-content-md-end">

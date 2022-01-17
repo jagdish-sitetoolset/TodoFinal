@@ -25,11 +25,18 @@ const TodoItemForm = (props) => {
                     <div className="mb-3">
                         <label  className="form-label">Enter tags</label>
                         <input  className="form-control" onChange={props.handleChange} type="text" name="tags" placeholder="Tags" />
+                        <div id="tagHelp" className="form-text">Add tags separated by ",".</div>
                     </div>
                     <div className="mb-3">
                         <label  className="form-label">Completed Date</label>
                         <input className="form-control" onChange={props.handleChange} type="date" data-date="" name="datecompleted" data-date-format="DD MMMM YYYY" ></input>
 
+                    </div>
+                    <div className="mb-3">
+                        <input className="form-check-input" onChange={props.handleChange} type="checkbox" value="" name="isrecurring"/>
+                        <label className="form-check-label" >
+                            &nbsp;Is Recurring
+                        </label>
                     </div>
                     <div className="mb-3">
                        <button type="submit" className="btn btn-primary">Submit</button>

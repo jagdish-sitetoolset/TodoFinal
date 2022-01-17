@@ -21,7 +21,9 @@ const TodoNew = (props)=> {
             navigate('/todo');
            
         })
-        .catch( data => console.log('Error', data) )
+        .catch( data => {
+            console.log( data)
+        }) 
       }    
 
     return (

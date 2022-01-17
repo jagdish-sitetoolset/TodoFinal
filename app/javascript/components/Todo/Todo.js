@@ -13,7 +13,7 @@ const Todo = () => {
     const[todo , setTodo] = useState([])
     const[todoitems , setTodoitems] = useState([])
 
-    const[todoitem_new , setTodoitem_new] = useState([{name:'',completed: false, datecompleted:'',tags:'',todo_id:0}])
+    const[todoitem_new , setTodoitem_new] = useState([{name:'',completed: false, datecompleted:'',tags:'',isrecurring:false,todo_id:0}])
     const [loaded,setLoaded] =  useState(false)
 
     let props = useParams()
@@ -44,8 +44,9 @@ const Todo = () => {
     } 
 
     const handleChange = (e) => {
-        if (e.target.name == 'completed'){
+        if (e.target.name == 'completed' || e.target.name == 'isrecurring'){
             // checkbox value
+            console.log(e.target.checked)
             setTodoitem_new(Object.assign({}, todoitem_new, {[e.target.name]: e.target.checked.toString()}))
         }
         else{
@@ -55,9 +56,10 @@ const Todo = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        console.log(todoitem_new)
         axios.post('/api/v1/todoitems',{...todoitem_new,todo_id: props.id})
         .then( resp => {
-            setTodoitem_new({name:'',completed: false, datecompleted:'',tags:''});
+            setTodoitem_new({name:'',completed: false, datecompleted:'',tags:'',isrecurring: false});
             setTodoitems([...todoitems,resp.data.data])
         })
         .catch( resp => console.log(resp))
@@ -122,6 +124,8 @@ const Todo = () => {
             name = {todoitem.attributes.name}
             datecompleted = {todoitem.attributes.datecompleted} 
             completed = {todoitem.attributes.completed}
+            isrecurring = {todoitem.attributes.isrecurring}
+
             handleDestroy_todoItem = {handleDestroy_todoItem}
             handleIncomplete_todoItem = {handleIncomplete_todoItem}
             handleComplete_todoItem = {handleComplete_todoItem}

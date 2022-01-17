@@ -8,17 +8,24 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :todos
-      resources :todoitems do
-        member do
-          post :complete
-          post :incomplete
-          post :move
-          patch :edit
-        end
-      end  
+      resources :todos do
+          member do 
+            get  :search
+          end  
+        end 
+        resources :todoitems do
+          member do
+            post :complete
+            post :incomplete
+            patch :edit
+          end
+        end 
+       
+       
     end
   end
 
   get '*path', to: 'pages#index', via: :all
+
+  #get "search" to: 'todos#search'
 end
