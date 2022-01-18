@@ -98,7 +98,6 @@ const Todos = () => {
             handleSearchChange={handleSearchChange} />
             <div className="container">
                 <div className="row">
-                    
                     {Todos_List}
                 </div>
             </div>

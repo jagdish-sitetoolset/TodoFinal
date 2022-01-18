@@ -57,12 +57,15 @@ const Todo = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         console.log(todoitem_new)
+
         axios.post('/api/v1/todoitems',{...todoitem_new,todo_id: props.id})
         .then( resp => {
+            console.log(12)
             setTodoitem_new({name:'',completed: false, datecompleted:'',tags:'',isrecurring: false});
             setTodoitems([...todoitems,resp.data.data])
         })
         .catch( resp => console.log(resp))
+            
     }   
 
     const handleIncomplete_todoItem = (id,e) => {

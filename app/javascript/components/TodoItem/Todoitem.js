@@ -6,7 +6,7 @@ const Todoitem =(props) => {
     const[tags , setTags] = useState([])
 
     useEffect ( () => {
-        console.log(props.id)
+        //console.log(props.id)
         const url ='/api/v1/todoitems/' + props.id
         axios.get(url)
         .then( resp => {
