@@ -46,7 +46,7 @@ const TodoEdit = (params)=> {
             return
         }
 
-        if (errormsg.trim().length > 0)
+        if (errormsg.trim().length == 0)
         {
             axios.patch('/api/v1/todos/'+todo.id,{...todo})
             .then( resp => {

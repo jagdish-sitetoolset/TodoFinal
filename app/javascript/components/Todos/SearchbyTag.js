@@ -6,7 +6,7 @@ const SearchbyTag = (props) => {
 
     return (
     <div className="Container">
-        <form className="form-inline" onSubmit={props.handleSearchsubmit}>
+        <form id="frmSearchTag" className="form-inline" onSubmit={props.handleSearchsubmit}>
             <div className="card"  >
                 <div className="card-header">
                 Search by Tag

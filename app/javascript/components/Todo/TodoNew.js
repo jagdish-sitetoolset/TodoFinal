@@ -27,7 +27,7 @@ const TodoNew = (props)=> {
             return
         }
 
-        if (errormsg.trim().length > 0)
+        if (errormsg.trim().length == 0)
         {
             axios.post('/api/v1/todos',{...todo})
             .then( resp => {
@@ -38,7 +38,7 @@ const TodoNew = (props)=> {
             .catch((error) => {
                 console.log(error.status);
 
-                console.log(error.message);
+                //console.log(error.message);
                 //alert(error);
             });
         }    
